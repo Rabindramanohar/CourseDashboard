@@ -23,8 +23,8 @@ class ManageCoursePage extends React.Component {
   }
 
   componentWillUnmount() {
-    this.props.actions.loadCourses();
-    this.props.actions.loadAuthors();
+    this.props.loadCourses();
+    this.props.loadAuthors();
   }
   render() {
     return (
@@ -55,4 +55,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ManageCoursePage);
+export default connect(mapStateToProps, mapDispatchToProps)(ManageCoursePage)
