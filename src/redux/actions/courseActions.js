@@ -1,13 +1,13 @@
 import * as types from "./actionTypes";
 import * as courseApi from "./../../api/courseApi";
 
-export function createCourse(course) {
-  // debugger;
-  return {
-    type: types.CREATE_COURSE,
-    course /* : course // object shorthand notation */,
-  };
-}
+// export function createCourse(course) {
+//   // debugger;
+//   return {
+//     type: types.CREATE_COURSE,
+//     course /* : course // object shorthand notation */,
+//   };
+// }
 
 export function loadCourseSuccess(courses) {
   return {
@@ -38,15 +38,16 @@ export function loadCourses() {
 }
 
 export function saveCourse(course) {
-  return function (dispatch, getState) {
+  //eslint-disable-next-line no-unused-vars
+  return function(dispatch, getState) {
     return courseApi
       .saveCourse(course)
-      .then((savedCourse) => {
+      .then(savedCourse => {
         course.id
           ? dispatch(updateCourseSuccess(savedCourse))
           : dispatch(createCourseSuccess(savedCourse));
       })
-      .catch((error) => {
+      .catch(error => {
         throw error;
       });
   };

@@ -11,6 +11,8 @@ function ManageCoursePage({
   authors,
   loadAuthors,
   loadCourses,
+  saveCourse,
+  history,
   ...props
 }) {
   const [course, setCourse] = useState({ ...props.course });
@@ -18,9 +20,11 @@ function ManageCoursePage({
 
   useEffect(() => {
     if (courses.length == 0) {
-      loadCourses().catch((error) => {
+      loadCourses().catch(error => {
         alert("Loading course failed: " + error);
       });
+    } else {
+      setCourse({...props.course})
     }
 
     if (authors.length == 0) {
@@ -28,11 +32,11 @@ function ManageCoursePage({
         alert("Loading authors failed: " + error);
       });
     }
-  }, []);
+  }, [props.course]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setCourse((preCourse) => ({
+    setCourse(preCourse => ({
       ...preCourse,
       [name]: name === "authorId" ? parseInt(value, 10) : value, // [name] js computation
     }));
@@ -40,7 +44,9 @@ function ManageCoursePage({
 
   const handleSave = (event) => {
     event.preventDefault();
-    saveCourse(course);
+    saveCourse(course).then(() => {
+      history.push('/courses');
+    });
   };
   return (
     <>
@@ -63,6 +69,7 @@ ManageCoursePage.propTypes = {
   loadCourses: PropTypes.func.isRequired,
   loadAuthors: PropTypes.func.isRequired,
   saveCourse: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
 };
 
 const mapDispatchToProps = {

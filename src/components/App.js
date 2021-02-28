@@ -14,10 +14,10 @@ export default function App() {
             <Header />
             <Switch>
                 <Route exact path = '/' component = {HomePage} />
+                <Route path = '/about' component = {AboutPage} />
                 <Route path = '/courses' component = {CoursesPage} />
                 <Route path = '/courses:slug' component = {ManageCoursePage} />
                 <Route path = '/course' component = {ManageCoursePage} />
-                <Route path = '/about' component = {AboutPage} />
                 <Route component = {PageNotFound} />
             </Switch>
         </div>

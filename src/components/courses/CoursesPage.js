@@ -5,33 +5,44 @@ import * as authorActions from "./../../redux/actions/authorActions";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import CourseList from "./CourseList";
+import {Redirect} from 'react-router-dom';
 
 class CoursesPage extends React.Component {
-  componentDidUpdate() {
-    // console.log("checking.......");
-    const {courses, authors, actions} = this.props;
-    if(courses.length == 0) {
-      actions.loadCourses().catch((error) => {
-      alert("Loading course failed: " + error);
-    });
+
+  state = {
+    redirectToAddCoursePage: false,
   }
 
-  if(authors.length == 0) {
-    actions.loadAuthors().catch((error) => {
-      alert("Loading authors failed: " + error);
-    });
+  componentDidMount() {
+    const { courses, authors, actions } = this.props;
+
+    if (courses.length === 0) {
+      actions.loadCourses().catch(error => {
+        alert("Loading courses failed" + error);
+      });
+    }
+
+    if (authors.length === 0) {
+      actions.loadAuthors().catch(error => {
+        alert("Loading authors failed" + error);
+      });
+    }
   }
 
-  }
+  
 
-  componentWillUnmount() {
-    this.props.actions.loadCourses();
-    this.props.actions.loadAuthors();
-  }
   render() {
     return (
       <>
+        {this.state.redirectToAddCoursePage && <Redirect to="/course" />}
         <h2>Courses</h2>
+        <button 
+          style = {{marginBottom: "20px"}}
+          className="btn btn-primary add-course"
+          onClick = {() => this.setState({redirectToAddCoursePage: true})}
+        >
+          Add Course
+        </button>
         <CourseList courses={this.props.courses} />
       </>
     );
@@ -62,8 +73,7 @@ function mapStateToProps(state) {
         : state.courses.map((course) => {
             return {
               ...course,
-              authorName: state.authors.find((a) => a.id === course.authorId)
-                .name,
+              authorName: state.authors.find((a) => a.id === course.authorId).name,
             };
           }),
     authors: state.authors,
