@@ -72,19 +72,26 @@ ManageCoursePage.propTypes = {
   history: PropTypes.object.isRequired,
 };
 
+export function getCourseBySlug(courses, slug) {
+  return courses.find(course => course.slug === slug) || null;
+}
+
+function mapStateToProps(state, ownProps) {
+  const slug = ownProps.match.params.slug;
+  // debugger;
+  // console.log(ownProps.match.params);
+  const course = slug && state.courses.length > 0 ? getCourseBySlug(state.courses, slug) : newCourse;
+  return {
+    course,
+    courses: state.courses,
+    authors: state.authors,
+  };
+}
 const mapDispatchToProps = {
   loadCourses,
   loadAuthors,
   saveCourse,
 };
 
-function mapStateToProps(state) {
-  // debugger;
-  return {
-    course: newCourse,
-    courses: state.courses,
-    authors: state.authors,
-  };
-}
 
 export default connect(mapStateToProps, mapDispatchToProps)(ManageCoursePage);
