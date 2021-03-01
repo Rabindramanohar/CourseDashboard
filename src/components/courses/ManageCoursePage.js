@@ -3,9 +3,10 @@ import { connect } from "react-redux";
 import { loadCourses, saveCourse } from "./../../redux/actions/courseActions";
 import { loadAuthors } from "./../../redux/actions/authorActions";
 import PropTypes from "prop-types";
-import CourseForm from "./courseForm";
+import CourseForm from "./CourseForm";
 import { newCourse } from "./../../../tools/mockData";
 import Spinner from "../common/Spinner.jsx";
+import {toast} from 'react-toastify';
 
 function ManageCoursePage({
   courses,
@@ -48,18 +49,23 @@ function ManageCoursePage({
     event.preventDefault();
     setSaving(true);
     saveCourse(course).then(() => {
-      history.push('/courses');
+      toast.success("Course Saved.");
+      history.push('/courses')
+      .catch(error => {
+        setSaving(false);
+        setErrors({ onSave: error.message });
+      })
     });
   };
   return authors.length === 0 || courses.length === 0 ? (<Spinner />) : (
-      <CourseForm
-        course={course}
-        authors={authors}
-        errors={errors}
-        onChange={handleChange}
-        onSave={handleSave}
-        saving = {saving}
-      />
+    <CourseForm
+      course={course}
+      errors={errors}
+      authors={authors}
+      onChange={handleChange}
+      onSave={handleSave}
+      saving={saving}
+  />
   );
 }
 

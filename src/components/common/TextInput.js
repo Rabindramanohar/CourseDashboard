@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 
 function TextInput({ name, label, onChange, placeholder, value, error }) {
     let wrapperClass = "form-group";
-    if(error && error.length > 0) {
-        wrapperClass += ` has-error`;
-    }
+    if (error && error.length > 0) {
+        wrapperClass += " " + "has-error";
+  }
     return (
         <div className = {wrapperClass}>
             <label htmlFor={name}>{label}</label>
@@ -30,7 +30,7 @@ TextInput.propTypes = {
     label: PropTypes.string.isRequired,
     placeholder: PropTypes.string,
     value: PropTypes.string.isRequired,
-    error: PropTypes.string.isRequired,
+    error: PropTypes.string,
     onChange: PropTypes.func.isRequired
 }
 
