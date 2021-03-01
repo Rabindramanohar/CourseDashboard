@@ -3,7 +3,7 @@ import React from "react";
 import TextInput from "./../common/TextInput";
 import SelectInput from "./../common/SelectInput";
 
-function courseForm({
+function  courseForm({
   course,
   authors,
   onSave,
